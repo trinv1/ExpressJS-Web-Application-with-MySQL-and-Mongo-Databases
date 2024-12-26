@@ -55,15 +55,15 @@ app.get("/addStudent", (req, res) => {
         check("age").isInt({min:18}).withMessage("Age should be 18 or older")
     ],
     
-    (req,res) => {//Handles when user hits ok
+    async (req,res) => {
         const errors = validationResult(req)//validating request body        
 
         if (!errors.isEmpty()) {//If errors not empty
-            res.render("addStudent",{errors:errors.errors})//rerender employee
+            res.render("addStudent",{errors:errors.errors})
         }
         else {
-            mysqlDAO.addStudent(req.body)
-            res.redirect("/students")
+            await mysqlDAO.addStudent(req.body)
+            res.redirect("students")
         }
 
 })
