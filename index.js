@@ -1,5 +1,8 @@
 var express = require('express') //Importing express
 var app = express();
+var mysqlDAO = require('./mySqlDao');
+let ejs = require('ejs');
+app.set('view engine', 'ejs')
 
 //App listening on port 3004
 app.listen(3004, ()=> {
@@ -17,3 +20,14 @@ app.get("/", (req, res) => {
     `);
 })
 
+//Calling get students
+app.get("/students", (req, res) => {
+    mysqlDAO.getStudents()
+    .then((data) => {
+        res.render("students", {studentsList: data})
+        console.log(JSON.stringify(data))
+    })
+    .catch((error) => {
+        res.send(error)
+    })
+})
