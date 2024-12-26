@@ -44,14 +44,20 @@ app.get("/addStudent", (req, res) => {
  //Handling when user hits add to add to students collection
  app.post("/addStudent", 
     [   //Checking request body
-        check("sid").isLength({min:4, max:4}).withMessage("Student ID should be 4 characters"),
+        check("sid").isLength({min:4, max:4}).withMessage("Student ID should be 4 characters")
+        .custom(async (sid) => { //Validating duplicate student id
+            var existingStudents = await mysqlDAO.getStudentByID(sid); 
+            if (existingStudents.length > 0) {
+                return Promise.reject("Student ID already exists. Please use a unique ID.");
+            }
+        }),
         check("name").isLength({min:2}).withMessage("Name should be a minimum of 4 characters"),
         check("age").isInt({min:18}).withMessage("Age should be 18 or older")
     ],
     
     (req,res) => {//Handles when user hits ok
-        const errors = validationResult(req)//validating request body
-        
+        const errors = validationResult(req)//validating request body        
+
         if (!errors.isEmpty()) {//If errors not empty
             res.render("addStudent",{errors:errors.errors})//rerender employee
         }

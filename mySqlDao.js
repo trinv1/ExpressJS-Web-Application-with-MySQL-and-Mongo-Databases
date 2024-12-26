@@ -20,7 +20,7 @@ pmysql.createPool({//Returning promise
    //Function to get all students from collection
    var getStudents = function(){
         return new Promise((resolve, reject) => {
-            pool.query('SELECT * FROM student')
+            pool.query('SELECT * FROM student')//Query to return all students
                 .then((data) => {
                     console.log(data)
                     resolve(data)
@@ -49,8 +49,23 @@ pmysql.createPool({//Returning promise
         })
     }
 
+    //Function to get student id
+    var getStudentByID = function(sid){
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT * FROM student WHERE sid = ?', [sid]) //Query to get student id
+            .then((result) => {
+                    console.log(result)
+                    resolve(result)
+                })
+                .catch((error) => {
+                    console.log(error)        
+                    reject(error)   
+            })   
+        })
+    }
 
-module.exports = {getStudents, addStudent}
+
+module.exports = {getStudents, addStudent, getStudentByID}
         
 
 
