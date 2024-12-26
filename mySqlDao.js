@@ -17,7 +17,7 @@ pmysql.createPool({//Returning promise
     console.log("pool error:" + e)
    })
 
-   //Calls pool query, sends info down to db, db sends info or error back
+   //Function to get all students from collection
    var getStudents = function(){
         return new Promise((resolve, reject) => {
             pool.query('SELECT * FROM student')
@@ -32,8 +32,25 @@ pmysql.createPool({//Returning promise
         })
     }
 
+    //Function to add student
+    var addStudent = function(student){
+        return new Promise((resolve, reject) => {
+            const query = 'INSERT INTO student (sid, name, age) VALUES (?, ?, ?)';
+            const elements = [student.sid, student.name, student.age];
+            pool.query(query, elements) //Query to insert a student    
+            .then((result) => {
+                    console.log(result)
+                    resolve(result)
+                })
+                .catch((error) => {
+                    console.log(error)        
+                    reject(error)   
+            })   
+        })
+    }
 
-module.exports = {getStudents}
+
+module.exports = {getStudents, addStudent}
         
 
 
