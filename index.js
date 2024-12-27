@@ -67,3 +67,29 @@ app.get("/addStudent", (req, res) => {
         }
 
 })
+
+//Calling edit page by student id
+app.get("/students/edit/:sid", async (req, res) => {
+        const sid = req.params.sid; 
+        const student = await mysqlDAO.getStudentByID(sid);//Fetching details from db
+        res.render("edit", { student: student[0], errors: undefined });
+})
+
+ //Handling student updates
+ app.post("/students/edit/:sid", 
+    [   //Checking request body
+        check("name").isLength({min:2}).withMessage("Name should be a minimum of 4 characters"),
+        check("age").isInt({min:18}).withMessage("Age should be 18 or older")
+    ],
+    
+    async (req,res) => {
+        const errors = validationResult(req)//validating request body        
+
+        if (!errors.isEmpty()) {//If errors not empty
+            res.render("editStudent",{errors:errors.errors})
+        }
+        else {
+            await mysqlDAO.editStudent(req.params.sid, req.body)
+            res.redirect("/students")
+        }
+})

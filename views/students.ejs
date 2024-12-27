@@ -1,4 +1,4 @@
-<!--Student table-->
+<!--Student table with update link-->
 <h1>G00405393</h1>
 <style>
     table,th,td{
@@ -11,15 +11,17 @@
 
 <table>
     <tr>
-    <th>Student ID</th>
-    <th>Name</th>
-    <th>Age</th>
+        <th>Student ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Action</th>
     </tr>
     <% studentsList.forEach((student) =>{ %> 
         <tr>
             <td><%= student.sid %></td>
             <td><%= student.name %></td>
             <td><%= student.age %></td>
+            <td><a href="/students/edit/<%= student.sid %>">Update</a><br></td>
         </tr>
     <% }) %>
     </table>
