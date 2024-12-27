@@ -1,7 +1,8 @@
 var express = require('express') //Importing express
 var app = express();
 var mysqlDAO = require('./mySqlDao');
-var bodyParser = require('body-parser')// Parse incoming request bodies in a middleware before your handlers, 
+const mongoDBDao = require('./mongoDBDao');
+var bodyParser = require('body-parser')
 
 let ejs = require('ejs');
 app.set('view engine', 'ejs')
@@ -24,7 +25,7 @@ app.get("/", (req, res) => {
     `);
 })
 
-//Calling get students
+//Calling get students to show students collection
 app.get("/students", (req, res) => {
     mysqlDAO.getStudents()
     .then((data) => {
@@ -100,7 +101,7 @@ app.get("/students/edit/:sid", async (req, res) => {
         }
 })
 
-//Calling get students
+//Calling get grades to show grades collection
 app.get("/grades", (req, res) => {
     mysqlDAO.getGrades()
     .then((data) => {
@@ -111,3 +112,14 @@ app.get("/grades", (req, res) => {
         res.send(error)
     })
 })
+
+//Calling get lecturers to show lecturers collection
+app.get('/lecturers', (req, res) => {
+    mongoDBDao.findAll()
+    .then((data) => {
+        res.render("lecturers", {lecturersList: data})
+    })
+    .catch((error) => {
+        res.status(500).send("Error fetching data: " + error.message);
+    })
+    })
