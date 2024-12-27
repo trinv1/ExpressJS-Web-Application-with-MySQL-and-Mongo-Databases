@@ -1,4 +1,4 @@
-<!--Lecturers table-->
+<!--Lecturers table with delete link-->
 <h1>Lecturers</h1>
 <style>
     table,th,td{
@@ -20,7 +20,7 @@
             <td><%= lecturer._id %></td>
             <td><%= lecturer.name %></td>
             <td><%= lecturer.did %></td>
-            <td><a href="/delete">Delete</a><br></td>
+            <td><a href="/lecturers/delete/<%= lecturer._id%> ">Delete</a></td>
         </tr>
     <% }) %>
     </table>

@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 
+//Connecting to mongo db
 MongoClient.connect('mongodb://127.0.0.1:27017')
 .then((client) => {
 db = client.db('proj2024')
@@ -13,8 +14,8 @@ console.log(error.message)
 var findAll = function () {
     return new Promise((resolve, reject) => {
         coll.find().sort({ _id: 1 }).toArray()//Query to get all documents and sort by id
-            .then((documents) => {
-                resolve(documents);
+            .then((data) => {
+                resolve(data);
             })
             .catch((error) => {
                 reject(error); 
@@ -22,5 +23,20 @@ var findAll = function () {
     });
 };
 
-module.exports = { findAll };
+//Deleting lecturer from collection
+var deleteLecturer = function (lecturerID) {
+    return new Promise((resolve, reject) => {
+        coll.deleteOne({ _id: lecturerID })
+            .then((data) => {
+                console.log(`Received lecturerID: ${lecturerID}`);
+                resolve(data);
+            })
+            .catch((error) => {
+                reject(error); 
+            });
+    });
+};
+
+
+module.exports = { findAll, deleteLecturer };
 

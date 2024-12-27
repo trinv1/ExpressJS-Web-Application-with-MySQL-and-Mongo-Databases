@@ -123,3 +123,24 @@ app.get('/lecturers', (req, res) => {
         res.status(500).send("Error fetching data: " + error.message);
     })
     })
+
+//Handling deleting lecturers
+app.get("/lecturers/delete/:lid", async (req, res) => {
+    const lecturerID = req.params.lid; 
+
+        const lecturersModules = await mysqlDAO.checkIfLecturerHasModule(lecturerID);
+
+        if (lecturersModules.length > 0) {//If lecturer has modules
+            return res.send(`
+                 <a href="/">Home</a>
+                <h1>Error Message</h1>
+                <h2>Cannot delete Lecturer ${lecturerID}. He/She has associated modules.</h2>
+                <a href="/lecturers">Back to Lecturers</a>
+            `);
+        }
+        else{//Else delete lecturer
+            await mongoDBDao.deleteLecturer(lecturerID);
+            res.redirect('/lecturers');
+        } 
+});
+

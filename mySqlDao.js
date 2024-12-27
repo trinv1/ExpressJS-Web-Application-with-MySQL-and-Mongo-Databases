@@ -93,8 +93,24 @@ pmysql.createPool({//Returning promise
     })
 }
 
+    //Function to check if a lecturer is associated with a module
+    var checkIfLecturerHasModule = function(lecturerID){
+        return new Promise((resolve, reject) => {
+            //Query to check if lecturer has a module
+            pool.query('SELECT * from module where lecturer = ?', [lecturerID])
+                .then((data) => {
+                    console.log(`Checking modules for lecturer ID: ${lecturerID}`);
+                    resolve(data)
+                })
+                .catch((error) => {
+                    console.log(error)        
+                    reject(error)   
+            })   
+        })
+    }
 
-module.exports = {getStudents, addStudent, getStudentByID, editStudent, getGrades}
+
+module.exports = {getStudents, addStudent, getStudentByID, editStudent, getGrades, checkIfLecturerHasModule}
         
 
 
