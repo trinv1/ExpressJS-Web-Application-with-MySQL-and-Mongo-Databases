@@ -80,7 +80,8 @@ pmysql.createPool({//Returning promise
    //Function to get all grades from collection
    var getGrades = function(){
     return new Promise((resolve, reject) => {
-        pool.query('SELECT student.name AS student_name, module.name AS module_name, grade.grade FROM grade INNER JOIN student ON grade.sid = student.sid INNER JOIN module ON grade.mid = module.mid;')//Query to return all grades
+        //Query to return all grades, module name and student name, in ascending order by grade and student name
+        pool.query('SELECT student.name AS student_name, module.name AS module_name, grade.grade FROM grade INNER JOIN student ON grade.sid = student.sid INNER JOIN module ON grade.mid = module.mid order by student.name, grade.grade asc;')
             .then((data) => {
                 console.log(data)
                 resolve(data)
