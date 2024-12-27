@@ -99,3 +99,15 @@ app.get("/students/edit/:sid", async (req, res) => {
             res.redirect("/students")
         }
 })
+
+//Calling get students
+app.get("/grades", (req, res) => {
+    mysqlDAO.getGrades()
+    .then((data) => {
+        res.render("grades", {gradesList: data})
+        console.log(JSON.stringify(data))
+    })
+    .catch((error) => {
+        res.send(error)
+    })
+})

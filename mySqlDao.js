@@ -77,8 +77,23 @@ pmysql.createPool({//Returning promise
         })
     }
 
+   //Function to get all grades from collection
+   var getGrades = function(){
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT student.name AS student_name, module.name AS module_name, grade.grade FROM grade INNER JOIN student ON grade.sid = student.sid INNER JOIN module ON grade.mid = module.mid;')//Query to return all grades
+            .then((data) => {
+                console.log(data)
+                resolve(data)
+            })
+            .catch((error) => {
+                console.log(error)        
+                reject(error)   
+        })   
+    })
+}
 
-module.exports = {getStudents, addStudent, getStudentByID, editStudent}
+
+module.exports = {getStudents, addStudent, getStudentByID, editStudent, getGrades}
         
 
 

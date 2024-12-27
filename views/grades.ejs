@@ -1,0 +1,25 @@
+<!--Grades table-->
+<h1>Grades</h1>
+<style>
+    table,th,td{
+        border:1px solid black;/*Adds black border to data*/
+    }
+</style>
+
+<a href="/">Home</a><br><!--Link to home page-->
+
+<table>
+    <tr>
+        <th>Student</th>
+        <th>Module</th>
+        <th>Grade</th>
+    </tr>
+    <% gradesList.forEach((grade) =>{ %> 
+        <tr>
+            <td><%= grade.student_name %></td>
+            <td><%= grade.module_name %></td>
+            <td><%= grade.grade %></td>
+        </tr>
+    <% }) %>
+    </table>
+    
