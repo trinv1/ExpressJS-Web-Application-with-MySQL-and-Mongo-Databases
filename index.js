@@ -86,7 +86,13 @@ app.get("/students/edit/:sid", async (req, res) => {
         const errors = validationResult(req)//validating request body        
 
         if (!errors.isEmpty()) {//If errors not empty
-            res.render("editStudent",{errors:errors.errors})
+            
+            const student = {
+                sid: req.params.sid,
+                name: req.body.name,
+                age: req.body.age
+            };
+            res.render("edit",{student, errors:errors.errors})
         }
         else {
             await mysqlDAO.editStudent(req.params.sid, req.body)
